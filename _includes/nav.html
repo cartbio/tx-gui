@@ -1,0 +1,17 @@
+<nav class="bies-nav navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header"><div class="logo"></div></div>
+    <ul class="nav navbar-nav">
+        <li {% if page.navtab == 'home' %}class="active"{% endif %}>
+           <a href="/">BIES Home<span class="sr-only">(current)</span></a></li>
+        <li {% if page.navtab == 'meetings' %}class="active"{% endif %}>
+           <a href="/meetings">Meetings</a></li> 
+<!--    <li {% if page.navtab == 'FAQ' %}class="active"{% endif %}>
+           <a href="/faq">FAQ</a></li>-->
+        <li {% if page.navtab == 'groups' %}class="active"{% endif %}>
+           <a href="/groups">Groups</a></li>
+        <li {% if page.navtab == 'data' %}class="active"{% endif %}>
+           <a href="/data">Data</a></li>
+    </ul>
+  </div>
+</nav>
