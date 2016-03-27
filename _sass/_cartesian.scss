@@ -6,3 +6,45 @@ nav .navbar-right {
 nav .navbar-right .caret {
   margin-right: .6em;
 }
+
+/*  labfile upload (/lab) */
+
+#fileupload {
+
+   .btn-file {
+       position: relative;
+       overflow: hidden;
+   }
+
+   .btn-file input[type=file] {
+       position: absolute;
+       top: 0;
+       right: 0;
+       min-width: 100%;
+       min-height: 100%;
+       font-size: 100px;
+       text-align: right;
+       filter: alpha(opacity=0);
+       opacity: 0;
+       outline: none;
+       background: white;
+       cursor: inherit;
+       display: block;
+   }
+
+   button.start {
+       margin-top: 2em;     
+   }
+
+   #lab_id.form-group.has-error label, label#file.has-error {
+       color: red;
+   }
+}
+
+table.history {
+   margin-top: 2em;
+}
+
+table.history img.spinner {
+    margin-right: 1em;
+}

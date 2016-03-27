@@ -2,30 +2,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   {% include bootstrap.html %}
-
-{% if page.plugin == "upload_plugin" %}
-   <script src="https://apis.google.com/js/platform.js" async defer></script>
-   <script src="/js/google.js" async defer></script>
-
-   <!-- blueimp Gallery styles -->
-   <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-   <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-   <link rel="stylesheet" href="css/jquery.fileupload.css">
-   <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
-   <!-- CSS adjustments for browsers with JavaScript disabled -->
-   <noscript><link rel="stylesheet" href="css/jquery.fileupload-noscript.css"></noscript>
-   <noscript><link rel="stylesheet" href="css/jquery.fileupload-ui-noscript.css"></noscript>
-{% endif %}
-
   <script src="/js/script.js"></script>
-
 </head>
