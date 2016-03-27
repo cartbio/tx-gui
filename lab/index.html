@@ -11,6 +11,16 @@ title: Upload file
     <form id="fileupload" action="{{ site.upload_url }}" method="POST" enctype="multipart/form-data">
 
       <div class="form-group" id="user">
+	<label for="target">URL to POST to</label>
+      <select name="target" class="form-control">
+        <option value="https://kou84anwu8.execute-api.us-east-1.amazonaws.com/prod/lab">
+         <b>API Gateway</b> --- https://kou84anwu8.execute-api.us-east-1.amazonaws.com/prod/lab</option>
+        <option value="https://cartesian-upload.s3.amazonaws.com">
+	 <b>S3 bucket</b> --- https://cartesian-upload.s3.amazonaws.com</option>
+      </select>
+      </div>
+
+      <div class="form-group" id="user">
 	<label for="user">Technician</label>
 	<input type="text" class="form-control" id="user" placeholder="Zak Kohane" readonly>
       </div>

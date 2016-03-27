@@ -35,13 +35,15 @@ function validate_form(){
   var labid = $('input#lab_id').val();
   if (labid == '' || labid[0].toUpperCase() != 'L') {
     console.log('Lab ID is missing or invalid');
-    $('#lab_id').addClass('has-error');
-  return false;
+    $('input#lab_id').val('L1234');
+    //$('#lab_id').addClass('has-error');
+  return true;  // TEMPORARILY REMOVED
   }
   var file = $('#fileupload input#file').val();
   if (file == ''){
     console.log('File is missing or invalid');
     $('#file').addClass('has-error');
+    return false;
   }
   return true;
 }
@@ -54,7 +56,7 @@ function do_upload(event){
   var lab_id =  $('#fileupload input#lab_id').val().toUpperCase();
   var filename =  $('#fileupload #filename').val();
   var pathname = lab_id + '/' + filename;
-  var url = $('#fileupload').attr('action');
+  var url = $('#fileupload select').val();
   var formData = new FormData();
   formData.append('key', pathname);
   formData.append('file', $('#fileupload input#file')[0].files[0], pathname);
@@ -90,8 +92,7 @@ function make_row(lab_id, filename){
   }
   var elt1 = $('<td/>').text(lab_id);
   var elt2 = $('<td/>').text(filename);
-  var stat = $('<td/>').addClass('status').append($('<img/>').attr('src', '/img/spinner.gif')
-						             .addClass('spinner'),
+  var stat = $('<td/>').addClass('status').append($('<i/>').addClass('fa fa-refresh fa-spin spinner'),
 						  'Uploading&hellip; ');
   var row = $('<tr/>').append(elt1, elt2, stat);
   $('table.history').append(row);
