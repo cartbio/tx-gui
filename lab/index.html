@@ -11,7 +11,7 @@ title: Upload file
     <form id="fileupload" action="{{ site.upload_url }}" method="POST" enctype="multipart/form-data">
 
       <div class="form-group" id="user">
-	<label for="target">URL to POST to</label>
+	<label style="color:green;" for="target">Debug: POST to target URL</label>
       <select name="target" class="form-control">
         <option value="https://kou84anwu8.execute-api.us-east-1.amazonaws.com/prod/lab">
          <b>API Gateway</b> --- https://kou84anwu8.execute-api.us-east-1.amazonaws.com/prod/lab</option>
@@ -52,5 +52,3 @@ title: Upload file
     </form>
    <table class="table table-striped history"></table>
 </div>
-
-
