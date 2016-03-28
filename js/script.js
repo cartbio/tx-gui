@@ -2,6 +2,7 @@
 
 $(document).ready( init_upload);
 $(document).on('change', '.btn-file :file', on_select_file);
+$(document).ajaxError(on_fail_ae);
 
 function on_select_file(){
   var input = $(this),
@@ -34,7 +35,7 @@ function show_select_file(event, numFiles, label) {
 function validate_form(){
   var labid = $('input#lab_id').val();
   if (labid == '' || labid[0].toUpperCase() != 'L') {
-    console.log('Lab ID is missing or invalid');
+    // console.log('Lab ID is missing or invalid');
     $('input#lab_id').val('L1234');
     //$('#lab_id').addClass('has-error');
   return true;  // TEMPORARILY REMOVED
@@ -67,7 +68,17 @@ function do_upload(event){
 	  processData: false,  // tell jQuery not to process the data
 	  contentType: false   // tell jQuery not to set contentType
 	 })
+    .fail(function(response, text){ on_fail(row, response, text);})
     .done(function(d, t, r){ on_upload_done(row, d, t, r);});
+}
+
+function on_fail_ae(event, request, settings){
+  // console.log("event=", event, "req=", request, "settings=", settings);
+}
+
+function on_fail(row, response, text){
+  //console.log('ERROR response=', response, "text=", text);
+  row.find('td.status').text('ERROR').addClass('warning');
 }
 
 function on_upload_done(row, data, textStatus, result){
