@@ -62,7 +62,6 @@ function update_display(auth2){
   } else {
     display_nouser();
   }
-  console.log('update display');
 }
 
 function display_user(email){

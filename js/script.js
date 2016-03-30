@@ -13,9 +13,12 @@ $(document).on('user_select_file', null, change_login);
 function change_login(event, auth2){
   var type = event.type;
   if (type == 'user_login'){
+    var name = auth2.currentUser.get().getBasicProfile().getName();
     $('p.upload_warn').hide();
+    $('input#user').val(name);
   } else if (type == 'user_logout'){
     $('p.upload_warn').show();
+    $('input#user').val('');
     $('button.start').attr('disabled', true);
   } else if (type == 'user_select_file'){
     // pass
