@@ -3,6 +3,34 @@
 $(document).ready( init_upload);
 $(document).on('change', '.btn-file :file', on_select_file);
 $(document).ajaxError(on_fail_ae);
+$(document).on('user_login', null, change_login);
+$(document).on('user_logout', null, change_login);
+$(document).on('user_select_file', null, change_login);
+
+
+
+
+function change_login(event, auth2){
+  var type = event.type;
+  if (type == 'user_login'){
+    $('p.upload_warn').hide();
+  } else if (type == 'user_logout'){
+    $('p.upload_warn').show();
+    $('button.start').attr('disabled', true);
+  } else if (type == 'user_select_file'){
+    // pass
+  }
+  update_upload_button(auth2.isSignedIn.get());
+}
+
+function update_upload_button(is_logged_in){
+  var files = $('.btn-file :file').get(0).files;
+  if (files.length > 0 && is_logged_in){
+    $('button.start').removeAttr('disabled');
+  } else {
+    $('button.start').attr('disabled', true);
+  }
+}
 
 function on_select_file(){
   var input = $(this),
@@ -10,7 +38,7 @@ function on_select_file(){
       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
   input.trigger('fileselect', [numFiles, label]);
   $('#fileupload #key').val(label);
-  $('button.start').removeClass('disabled');
+  $(document).trigger('user_select_file', _auth2);
   $('span.prompt').text('File:');
 }
 
@@ -73,7 +101,7 @@ function do_upload(event){
 }
 
 function on_fail_ae(event, request, settings){
-  // console.log("event=", event, "req=", request, "settings=", settings);
+  console.log('on_fail_ae', "event=", event, "req=", request, "settings=", settings);
 }
 
 function on_fail(row, response, text){
@@ -113,5 +141,5 @@ function make_row(lab_id, filename){
 function reset_form(){
   $('#fileupload #filename').val('');
   $('#fileupload .prompt').html('Choose file&hellip;');
-  $('button.start').addClass('disabled');
+  $('button.start').attr('disabled', true);
 }

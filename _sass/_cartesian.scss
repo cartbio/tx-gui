@@ -35,10 +35,31 @@ nav .navbar-right .caret {
    button.start {
        margin-top: 2em;     
    }
+   p.upload_warn {
+      font-style: italic;
+   }
 
    #lab_id.form-group.has-error label, label#file.has-error {
        color: red;
    }
+}
+
+nav .session {
+    margin-top: .4em;
+
+    div, a {
+      display: none;
+    }
+    a {
+     cursor: pointer;
+    }
+    div.login {
+      display: inline;
+    }
+    div.user_email {
+      margin-right: 2em;
+      font-weight: bold;
+    }
 }
 
 table.history {
