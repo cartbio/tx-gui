@@ -5,6 +5,8 @@
 
 var _auth2;
 var KEY = "{{ site.google_api_key }}";
+var TOKEN_COOKIE = 'Google_ID_token';
+var TOKEN_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=';
 
 var _onGoogleLoad = function () {
   gapi.load('auth2', function () {
@@ -20,14 +22,14 @@ var _onGoogleLoad = function () {
 };
 
 function _enableGoogleButton (auth2){
-  auth2.attachClickHandler('login_button', {}, function(user) {onSuccess(auth2, user);}, onFailure);
+  auth2.attachClickHandler('login_button', {}, function(user) {onLoginSuccess(auth2, user);}, onLoginFailure);
   $('nav .logout').click(function(){
 			   logout(auth2);
 			   return false;});
 }
 
 // after user clicks login button and logs in
-function onSuccess(auth2, user) {
+function onLoginSuccess(auth2, user) {
   update_display(auth2);
   var id_token = user.getAuthResponse().id_token;
   var access_token = user.getAuthResponse().access_token;
@@ -36,7 +38,7 @@ function onSuccess(auth2, user) {
 }
 
 // after user clicks login button and fails to log in
-function onFailure(error) {
+function onLoginFailure(error) {
   console.log('login error=', error);
 }
 
@@ -60,6 +62,8 @@ function isSignedIn(auth2){
   return auth2.isSignedIn.get();
 }
 
+// Update navbar css
+
 function update_display(auth2){
   if (isSignedIn(auth2)){
     var user = getUser(auth2);
@@ -82,17 +86,17 @@ function display_nouser(){
   $('nav .logout').hide();
 }
 
-TOKEN_COOKIE = 'Google_ID_token';
-TOKEN_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=';
+// Persist ID token as a cookie
 
 function remember_id_token(id_token){
   var now = new Date();
-  var minutes = 60; // expires in one hour
+  var minutes = 60; // cookie expires in one hour
   var future = new Date(now.getTime() + minutes*60000);
   Cookies.remove(TOKEN_COOKIE);
   Cookies.set(TOKEN_COOKIE, id_token, { expires: future });
 }
 
+// onSuccess is a fcn to call when token is validated successfully
 function check_id_token(onSuccess){
   var token = Cookies.get(TOKEN_COOKIE);
   if (typeof token == 'undefined' || token == 'undefined'){
@@ -100,5 +104,4 @@ function check_id_token(onSuccess){
   }
   $.get(TOKEN_URL+token).done(onSuccess);
 }
-
 

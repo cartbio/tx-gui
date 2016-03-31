@@ -1,14 +1,5 @@
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container">
-    <div class="navbar-right navbar-default">
-         <div class="session">
-            <div class="mugshot"></div>
-            <div class="user_email">nobody</div>
-            <div id="login_button" class="login btn btn-default">Login</div>
-            <a class="logout">Log out</a>
-         </div>
-    </div>
-
     <div class="navbar-header navbar-brand">Cartesian Bio</div>
     <ul class="nav navbar-nav">
         <li {% if page.navtab == 'upload' %}class="active"{% endif %}>
@@ -16,5 +7,13 @@
         <li {% if page.navtab == 'log' %}class="active"{% endif %}>
            <a href="/lab/log">Files log</a></li> 
     </ul>
+    <div class="navbar-right">
+         <div class="session">
+            <div class="mugshot"></div>
+            <div class="user_email">nobody</div>
+            <div id="login_button" class="login btn btn-default">Login</div>
+            <a class="logout">Log out</a>
+         </div>
+    </div>
   </div>
 </nav>
