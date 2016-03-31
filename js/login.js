@@ -7,11 +7,13 @@ var _auth2;
 var KEY = "{{ site.google_api_key }}";
 var TOKEN_COOKIE = 'Google_ID_token';
 var TOKEN_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=';
+//               https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=
 
 var _onGoogleLoad = function () {
   gapi.load('auth2', function () {
 	               _auth2 = gapi.auth2.init({
 			 client_id: KEY,
+			 access_type: 'offline',
 			 scope: 'email',
 			 fetch_basic_profile: true
 			});
@@ -33,6 +35,7 @@ function onLoginSuccess(auth2, user) {
   update_display(auth2);
   var id_token = user.getAuthResponse().id_token;
   var access_token = user.getAuthResponse().access_token;
+  console.log(access_token);
   remember_id_token(id_token);
   $(document).trigger('user_login', auth2);
 }
@@ -98,10 +101,10 @@ function remember_id_token(id_token){
 
 // onSuccess is a fcn to call when token is validated successfully
 function check_id_token(onSuccess){
-  var token = Cookies.get(TOKEN_COOKIE);
-  if (typeof token == 'undefined' || token == 'undefined'){
+  var id_token = Cookies.get(TOKEN_COOKIE);
+  if (typeof id_token == 'undefined' || id_token == 'undefined'){
     return false;
   }
-  $.get(TOKEN_URL+token).done(onSuccess);
+  $.get(TOKEN_URL+id_token).done(function(data){onSuccess(id_token, data);});
 }
 

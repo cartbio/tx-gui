@@ -13,10 +13,13 @@ $(document).on('user_select_file', null, change_login);
 function change_login(event, auth2){
   var type = event.type;
   if (type == 'user_login'){
-    var profile = auth2.currentUser.get().getBasicProfile();
+    var user = auth2.currentUser.get();
+    var profile = user.getBasicProfile();
+    var access_token = user.getAuthResponse().access_token;
+    var id_token = user.getAuthResponse().id_token;
     var name = profile.getName();
     var url = profile.getImageUrl();
-    display_logged_in(name, url);
+    display_logged_in(name, url, id_token, access_token);
   } else if (type == 'user_logout'){
     display_logged_out();
   } else if (type == 'user_select_file'){
@@ -31,13 +34,15 @@ function display_logged_out(){
   $('button.start').attr('disabled', true);
 }
 
-function display_logged_in(name, url){
+function display_logged_in(name, url, id_token, access_token){
   if (false && typeof url != 'undefined'){  // hidden for now
       $('nav .mugshot').css('background-image', 'url('+url+')')
       .css('display', 'inline-block');
   }
   $('p.upload_warn').hide();
   $('input#user').val(name);
+  $('input#id_token').val(id_token);
+  $('input#access_token').val(access_token);
 }
 
 function update_upload_button(is_logged_in){
@@ -72,10 +77,11 @@ function check_login(){
   check_id_token(on_still_here);
 }
 
-function on_still_here(data){
+function on_still_here(id_token, data){
   var name = data.name;
   var email = data.email;
-  display_logged_in(name, '');
+  var access_token = data.access_token;
+  display_logged_in(name, '', id_token, access_token);
   display_user(email);
   update_upload_button(true);
 }
