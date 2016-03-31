@@ -13,6 +13,8 @@ var _onGoogleLoad = function () {
 			 scope: 'email',
 			 fetch_basic_profile: true
 			});
+		       var user = getUser(_auth2);
+		       var token = user.getAuthResponse().id_token;
 		       _enableGoogleButton(_auth2);
 		     });
 };
@@ -27,6 +29,9 @@ function _enableGoogleButton (auth2){
 // after user clicks login button and logs in
 function onSuccess(auth2, user) {
   update_display(auth2);
+  var id_token = user.getAuthResponse().id_token;
+  var access_token = user.getAuthResponse().access_token;
+  remember_id_token(id_token);
   $(document).trigger('user_login', auth2);
 }
 
@@ -44,6 +49,7 @@ function logout(auth2){
 			 update_display(auth2);
 			 $(document).trigger('user_logout', auth2);
 			 });
+  Cookies.remove(TOKEN_COOKIE);
 }
 
 function getUser(auth2){
@@ -75,3 +81,24 @@ function display_nouser(){
   $('nav .login').css('display', 'inline');
   $('nav .logout').hide();
 }
+
+TOKEN_COOKIE = 'Google_ID_token';
+TOKEN_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=';
+
+function remember_id_token(id_token){
+  var now = new Date();
+  var minutes = 60; // expires in one hour
+  var future = new Date(now.getTime() + minutes*60000);
+  Cookies.remove(TOKEN_COOKIE);
+  Cookies.set(TOKEN_COOKIE, id_token, { expires: future });
+}
+
+function check_id_token(onSuccess){
+  var token = Cookies.get(TOKEN_COOKIE);
+  if (typeof token == 'undefined' || token == 'undefined'){
+    return false;
+  }
+  $.get(TOKEN_URL+token).done(onSuccess);
+}
+
+

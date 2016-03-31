@@ -60,6 +60,17 @@ nav .session {
       margin-right: 2em;
       font-weight: bold;
     }
+    .mugshot {
+      /* display: inline-block; */
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #DDD;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
 }
 
 table.history {
