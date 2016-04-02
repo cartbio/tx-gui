@@ -9,22 +9,44 @@
 
 $(document).ready(init_upload);
 
+var ROLE_COOKIE = 'role';
+
 function init_upload() {
+  init_navbar();
   // Event watchers
   $(document).ajaxError(on_ajax_fail);
   $(document).on('user_login', display_logged_in);
   $(document).on('user_logout', display_logged_out);
 
   $(document).on('change', '.btn-file :file', on_select_file);
-  //$(document).on('fileselect', '.btn-file :file', show_select_file);
-  //$(document).on('user_select_file', change_login);
 
+  $('.assume-role').click(assume_role);
   $('#fileupload').submit(do_upload);
   $('input#lab_id').change(function() { $('#lab_id').removeClass('has-error');});
 }
 
 function on_ajax_fail(event, request, settings){
   console.log('on_ajax_fail', "event=", event, "req=", request, "settings=", settings);
+}
+
+function init_navbar(){
+  var role = Cookies.get(ROLE_COOKIE);
+  $('.assume-role'+'[role='+role+']').addClass('active');
+  if (typeof role == 'undefined'){
+    Cookies.set(ROLE_COOKIE, 'none');
+    return;
+  } else if (role == 'patient'){
+    $('.role-patient').addClass('enabled');
+  } else if (role == 'lab'){
+    $('.role-lab').addClass('enabled');
+  }
+}
+
+function assume_role(event){
+  var role = $(this).attr('role');
+  Cookies.set(ROLE_COOKIE, role);
+  $('.role-patient, .role-lab').removeClass('enabled');
+  init_navbar();
 }
 
 // ----------- login/logout events -------------
@@ -40,6 +62,7 @@ function display_logged_in(){
 function display_logged_out(){
   $('input#user').val('');
   update_upload_button();
+  window.location.href = '/';
 }
 
 function update_upload_button(){
