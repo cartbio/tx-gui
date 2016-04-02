@@ -80,3 +80,14 @@ table.history {
 table.history i.spinner {
     margin-right: 1em;
 }
+/* ---------- patient info ----------- */
+
+.patient .progress-indicator {
+   margin-top: 3em;
+   
+   .description {
+     margin-top: .5em;
+     font-size: 130%;
+     text-transform: none;
+   }
+}
