@@ -63,8 +63,12 @@ function show_s3_list(id_token){
   var operation = 'listObjects';
   var params = {Bucket: 'cartesian-upload'};
   if (id_token != null){
+    console.log('id_token length=', id_token.length);
     console.log('id_token=', id_token);
-    $('body').append('<p/><p/>', $('<tt/>').text('id_token= '+id_token));
+
+    $('body').append('<p/><p/>', $('<tt/>').text('id_token length=' +  (id_token.length).toString()),
+		                 $('<br/>'),
+                                 $('<tt/>').text('id_token= '+id_token));
     var credentials = { RoleArn: 'arn:aws:iam::025206924291:role/CartesianPartnersUploadFiles_Role',
 			WebIdentityToken: id_token
 		      };
