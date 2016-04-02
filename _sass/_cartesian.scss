@@ -88,13 +88,15 @@ nav {
 }
 
 
-table.history {
+table.history, table.log {
    margin-top: 2em;
 }
 
 table.history i.spinner {
     margin-right: 1em;
 }
+
+
 /* ---------- home page ----------- */
 
 .home-page {
@@ -109,12 +111,19 @@ table.history i.spinner {
 
 /* ---------- patient info ----------- */
 
-.patient .progress-indicator {
-   margin-top: 3em;
+.patient {
+   form {
+      button { margin-top: 2em; }
+      .fine-print { width: 70% }
+   }
+
+   .progress-indicator {
+      margin-top: 3em;
    
-   .description {
-     margin-top: .5em;
-     font-size: 130%;
-     text-transform: none;
+      .description {
+         margin-top: .5em;
+         font-size: 130%;
+         text-transform: none;
+       }
    }
 }
