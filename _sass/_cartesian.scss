@@ -98,9 +98,12 @@ table.history i.spinner {
 /* ---------- home page ----------- */
 
 .home-page {
-    li {
-      list-style: none;
-      margin: 3em 0px;
+    .roles {
+      margin-top: 3em;
+      a,b {
+        margin-right: 1em;
+        display: inline;
+      }
     }
 }
 
