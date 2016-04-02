@@ -1,9 +1,9 @@
 nav {
-  li.role-patient, li.role-lab {
+  li.role-patient, li.role-lab, li.role-expert {
      display: none;
   }
 
-  .role-patient.enabled, .role-lab.enabled {
+  .role-patient.enabled, .role-lab.enabled, .role-expert.enabled {
      display: inline;
   }
 

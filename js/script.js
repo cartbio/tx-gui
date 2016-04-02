@@ -43,11 +43,7 @@ function init_navbar(){
     return;
   }
   $('.assume-role'+'[role='+role+']').addClass('active');
-  if (role == 'patient'){
-    $('.role-patient').addClass('enabled');
-  } else if (role == 'lab'){
-    $('.role-lab').addClass('enabled');
-  }
+  $('.role-'+role).addClass('enabled');
 }
 
 function assume_role(event){
@@ -191,7 +187,7 @@ function get_s3(id_token){
 function show_s3_upload_result(row, error, data) {
   if (error) {
     console.log('ERROR', error, data);
-    row.find('td.status').text('ERROR' + error).addClass('warning');
+    row.find('td.status').text('ERROR ' + error).addClass('warning');
   } else {
     console.log('SUCCESS', error, data);
     row.find('td.status').text('Upload complete: OK').addClass('success');
