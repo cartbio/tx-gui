@@ -43,6 +43,9 @@ function display_logged_out(){
 }
 
 function update_upload_button(){
+  if ($('.btn-file :file').length == 0){
+    return;
+  }
   var is_logged_in = (get_user_info() != null);
   var files = $('.btn-file :file').get(0).files;
   var is_enabled = (files.length > 0 && is_logged_in);
