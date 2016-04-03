@@ -1,0 +1,5 @@
+1: [Sign up, label-default step-1]
+2: [Shipped, label-default step-2]
+3: [Tissue analysis, label-default step-3]
+4: [Data analysis, label-default step-4]
+5: [Report complete, label-success step-5]

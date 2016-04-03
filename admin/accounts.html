@@ -1,0 +1,33 @@
+---
+layout: default
+navtab: accounts
+title: Accounts
+---
+
+
+<div class="container accounts">
+  <h1>Accounts</h1>
+
+  <div class="row">
+  <div class="search col-sm-5">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+      </span>
+    </div>
+  </div>
+  </div>
+
+   <table class="table table-striped log">
+    <tr><th>Name</th><th>Email</th><th>Roles</th></tr>
+    {% assign sorted = site.data.accounts | sort:"lname" %}
+    {% for account in sorted %}
+    <tr><td><a href="./account">{{ account.fname }} {{ account.lname }}<a></td>
+        <td>{{ account.email }}</td>
+        <td>{{ account.roles | join: ", " }}</td>
+        </tr>
+    {% endfor %}
+   </table>
+
+</div>

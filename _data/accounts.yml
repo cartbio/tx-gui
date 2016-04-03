@@ -1,0 +1,20 @@
+- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['admin', 'expert']}
+- {fname: Steve, lname: Strassmann, email: steve@cartesian.bio, roles: ['admin']}
+- {fname: Nathan, lname: Palmer, email: nathan@cartesian.bio, roles: ['admin', 'expert']}
+- {fname: Andrew, lname: Beam, email: andrew@cartesian.bio, roles: ['admin', 'expert']}
+- {fname: Daria, lname: Prilutzky, email: daria@cartesian.bio, roles: ['admin', 'expert', 'lab']}
+- {fname: Bob, lname: Hickory, email: bob@helomics.com, roles: ['lab']}
+- {fname: Sue, lname: Farzhal, email: sue@helomics.com, roles: ['lab']}
+- {fname: Leslie, lname: Simms, email: leslie@helomics.com, roles: ['lab']}
+- {fname: Josephine, lname: Baker, email: jbaker999@gmail.com, roles: ['patient']}
+- {fname: Flournoy, lname: Miller, email: miller30@gmail.com, roles: ['patient']}
+- {fname: Aubrey, lname: Lyles, email: crocodyles@gmail.com, roles: ['patient']}
+- {fname: Paul, lname: Robeson, email: probeson@gmail.com, roles: ['patient']}
+- {fname: Fredi, lname: Washington, email: fwashington@gmail.com, roles: ['patient']}
+- {fname: Eubie, lname: Blake, email: eblake@gmail.com, roles: ['patient']}
+- {fname: Noble, lname: Sissle, email: customblinds2go@gmail.com, roles: ['patient']}
+- {fname: Yuri, lname: Zhivago, email: yzhivago@gmail.com, roles: ['physician']}
+- {fname: Benjamin, lname: Spock, email: bspock@gmail.com, roles: ['physician']}
+- {fname: Avros, lname: Stockdale, email: astockdale@gmail.com, roles: ['physician']}
+- {fname: John H., lname: Holliday, email: docholliday@gmail.com, roles: ['physician']}
+

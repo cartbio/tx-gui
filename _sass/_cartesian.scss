@@ -1,9 +1,11 @@
 nav {
-  li.role-patient, li.role-lab, li.role-expert {
+  li.role-physician, li.role-patient, li.role-lab, 
+  li.role-expert, li.role-admin {
      display: none;
   }
 
-  .role-patient.enabled, .role-lab.enabled, .role-expert.enabled {
+  .role-physician.enabled, .role-patient.enabled, .role-lab.enabled,
+  .role-expert.enabled, .role-admin.enabled {
      display: inline;
   }
 
@@ -126,4 +128,21 @@ table.history i.spinner {
          text-transform: none;
        }
    }
+}
+
+.patients {
+   .label {
+      color: #777;
+      &.step-1 { background-color: #FFE; }
+      &.step-2 { background-color: #EFF; }
+      &.step-3 { background-color: #FEF; }
+      &.step-4 { background-color: #EEF; }
+      &.step-5 { background-color: #CEC; }
+   }
+}
+
+/* ------------- accounts ------------ */
+
+.accounts div.search {
+   margin-top: 2em;
 }
