@@ -8,12 +8,15 @@ title: Patients
 <div class="patients container">
    <h1>Patients</h1>
 
+   {% include search.html %}
+
    <table class="table table-striped log">
-    <tr><th>Patient</th><th>Status</th></tr>
+    <tr><th>Patient</th><th>Report</th><th>Status</th></tr>
     {% for patient in site.data.patients %}
     {% assign state = patient[1] %}
     {% assign vals = site.data.states[state] %}
     <tr><td><a href="./patient">{{ patient[0] }}<a></td>
+        <td>{% if state == 5 %}<a href="/expert/dummy-report.pdf"><i class="fa fa-file-o"></i></a>{% endif %}</td>
         <td><span class="label  {{ vals[1] }}">Step {{ state }}: {{ vals[0] }}</span></td>
         </tr>
     {% endfor %}

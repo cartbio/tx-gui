@@ -8,6 +8,8 @@ title: Files log
 <div class="container">
    <h1>Files log</h1>
 
+   {% include search.html %}
+
    <table class="table table-striped log">
     <tr><th>Lab ID</th><th>File name</th><th>Upload by</th><th>Upload date</th></tr>
     {% for file in site.data.files %}

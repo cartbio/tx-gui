@@ -7,9 +7,9 @@ states: {Completed: btn-default, 'In review': btn-primary, Ready: btn-success}
 queue: [[R3081, 3hr, Ready], 
         [R3080, 8hr, Ready], 
         [R3078, Apr 1,'In review'],
-        [R3077, Mar 30,Completed],
-        [R3073, Mar 29,Completed],
-        [R3071, Mar 28,Completed],
+        [R3077, Mar 30, Completed],
+        [R3073, Mar 29, Completed],
+        [R3071, Mar 28, Completed],
         [R3066, Mar 23, Completed],
         [R3064, Mar 22, Completed],
         [R3063, Mar 21, Completed]
@@ -19,12 +19,15 @@ queue: [[R3081, 3hr, Ready],
 <div class="container">
    <h1>Analysis queue</h1>
 
+   {% include search.html %}
+
    <table class="table table-striped log">
-    <tr><th>Report ID</th><th>Created</th><th>Status</th></tr>
+    <tr><th>Report ID</th><th>Created</th><th>Report</th><th>Status</th></tr>
     {% for item in page.queue %}
     {% assign state = item[2] %}
     <tr><td><a target="r" href="http://cartdev.shinyapps.io/shinytest?report={{ item[0] }}">{{ item[0] }}<a></td>
         <td>{{ item[1] }}</td>
+        <td>{% if item[2] == "Completed" %}<a href="dummy-report.pdf"><i class="fa fa-file-o"></i></a>{% endif %}</td>
         <td><div class="btn btn-xs {{ page.states[state] }}">{{ item[2] }}</div></td>
         </tr>
     {% endfor %}
