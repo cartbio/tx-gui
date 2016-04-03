@@ -94,7 +94,7 @@ function navbar_display_user(){
   $('nav .user_email').text(info.email).css('display', 'inline');
   $('nav .login').hide();
   $('nav .logout_button').css('display', 'inline');
-  // display_user_picture(info.image_url);  // hidden for now, css is broken
+  display_user_picture(info.image_url);
 }
 
 function navbar_display_nouser(){

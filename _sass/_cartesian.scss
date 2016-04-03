@@ -23,7 +23,8 @@ nav {
   }
 
   .session {
-    margin-top: .4em;
+    height: 100%;
+    vertical-align: middle;
 
     div, a { display: none; }
     a { 
@@ -39,7 +40,8 @@ nav {
     }
 
     .mugshot {
-      display: none;
+      display: inline;
+      vertical-align: middle;
       width: 32px;
       height: 32px;
       border-radius: 50%;
