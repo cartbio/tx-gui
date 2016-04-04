@@ -156,20 +156,27 @@ function do_upload(event){
   if (!validate_form()){
     return;
   }
+  var user_info = get_user_info();
+  if (typeof user_info == 'undefined' || user_info == null){
+    console.log('ERROR: not logged in (no user_info)');
+    return;
+  }
+  var id_token = user_info.id_token;
+  if (typeof id_token == 'undefined'){
+    console.log('ERROR: not logged in (no id_token for ' + user_info.email + ')');
+    return;
+  }
   var lab_id =  $('#fileupload input#lab_id').val().toUpperCase();
   var file = $('#fileupload input#file')[0].files[0];
   var operation = 'putObject';
   var params = {Bucket: 'cartesian-upload',
-		Key: file.name,
+		Key: user_info.email + '/' + lab_id + '/' + file.name,
 		ContentType: file.type,
 		Body: file,
 		Metadata: {'LabID' : lab_id},
 		ACL: "bucket-owner-full-control",
 		ServerSideEncryption: "aws:kms"};
-  var id_token = get_user_info().id_token;
-  if (typeof id_token == 'undefined'){
-    console.log('ERROR: not logged in');
-  }
+
   var s3 = get_s3(id_token);
   var row = make_row(lab_id, file.name);
   s3.upload(params, function(error, data){show_s3_upload_result(row, error, data);});
