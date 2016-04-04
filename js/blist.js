@@ -77,7 +77,7 @@ function show_s3_list(id_token){
     AWS.config.logger = 'console';
     //console.log('aws.config', AWS.config);
   }
-  var s3 = new AWS.S3();
+  var s3 = new AWS.S3({"signatureVersion":"v4"});
   if (id_token == null){
     s3.makeUnauthenticatedRequest(operation, params, show_s3_result);
   } else {

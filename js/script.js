@@ -181,7 +181,7 @@ function get_s3(id_token){
 		      };
   AWS.config.credentials = new AWS.WebIdentityCredentials(credentials);
   AWS.config.region = 'us-east-1';
-  return new AWS.S3();
+  return new AWS.S3({"signatureVersion":"v4"});
 }
 
 function show_s3_upload_result(row, error, data) {
