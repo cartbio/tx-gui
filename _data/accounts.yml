@@ -1,4 +1,4 @@
-- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['admin']}
+- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['expert']}
 - {fname: Steve, lname: Strassmann, email: steve@cartesian.bio, roles: ['admin']}
 - {fname: Steve, lname: Strassmann, email: steve@strassmann.com, roles: ['admin']}
 - {fname: Nathan, lname: Palmer, email: nathan@cartesian.bio, roles: ['admin', 'expert']}

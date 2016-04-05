@@ -148,7 +148,7 @@ function do_upload(event){
 		Key: user_info.email + '/' + lab_id + '/' + file.name,
 		ContentType: file.type,
 		Body: file,
-		Metadata: {'LabID' : lab_id},
+		Metadata: {'LabID' : lab_id, 'email' : user_info.email},
 		ACL: "bucket-owner-full-control",
 		ServerSideEncryption: "aws:kms"};
 

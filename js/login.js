@@ -278,7 +278,7 @@ function set_role(role){
     target = target.slice(0, -1);
   }
   if (target != get_path()){
-    window.location.href = account.href;
+    //window.location.href = account.href;
     return;
   }
   $('#dropdownRoles li.role').removeClass('active');
