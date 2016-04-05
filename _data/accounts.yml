@@ -1,6 +1,6 @@
-- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['admin', 'expert']}
+- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['admin']}
 - {fname: Steve, lname: Strassmann, email: steve@cartesian.bio, roles: ['admin']}
-- {fname: Steve, lname: Strassmann, email: steve@strassmann.com, roles: ['admin', 'patient']}
+- {fname: Steve, lname: Strassmann, email: steve@strassmann.com, roles: ['admin']}
 - {fname: Nathan, lname: Palmer, email: nathan@cartesian.bio, roles: ['admin', 'expert']}
 - {fname: Andrew, lname: Beam, email: andrew@cartesian.bio, roles: ['admin', 'expert']}
 - {fname: Daria, lname: Prilutzky, email: daria@cartesian.bio, roles: ['admin', 'expert', 'lab']}

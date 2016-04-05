@@ -37,7 +37,6 @@ $(document).ready(function(){
 		      CURRENT_ROLE = cookie;
 		      CURRENT_ROLE_DEFAULT = false;
 		    }
-		    console.log('cookie role', CURRENT_ROLE);
 		    check_login();
 		    $(document).on('user_login', update_navbar);
 	            $(document).on('user_logout', update_navbar);
@@ -157,11 +156,24 @@ function navbar_hide_roles(){
 // -----
 // Roles
 
+function is_valid_role(role){
+  var roles = Object.keys(ROLES);
+  return roles.indexOf(role) != -1;
+}
 
 // visible_roles is a list of keys, e.g. ['expert', 'patient']
 function init_roles_menu(current_role, visible_roles){
   $('#dropdownRoles li.role').remove();
+  if (!is_valid_role(current_role)){
+    console.log('ERROR: unknown role', role);
+    set_role('none');
+    return;
+  }
   $.each(visible_roles, function(i, role){
+	   if (!is_valid_role(role)){
+	     console.log('ERROR: unknown role', role);
+	     return;
+	   }
 	   var attrs = ROLES[role];
 	   var anchor = $('<a/>').attr('href', attrs.href).text(attrs.name);
 	   var li = $('<li/>').attr('value', role).addClass('role').append(anchor);
@@ -219,11 +231,15 @@ function handle_check_role(user_email, auth2, data){
     roles = account.roles;
   }
   $(document).data('roles', roles);
-  if (CURRENT_ROLE == 'none' && CURRENT_ROLE_DEFAULT){
+  if (roles.length == 0){
+    // Not enabled for any roles
+    set_role('none');
+  } else if (CURRENT_ROLE == 'none' && CURRENT_ROLE_DEFAULT){
+    // Login with new role
     set_role(roles[0]);
   } else if (roles.indexOf(CURRENT_ROLE) == -1 && roles.indexOf('admin') == -1) {
-    // User not authorized for CURRENT_ROLE. Downgrade to 'none'
-    set_role('none');
+    // No longer eligible for saved role
+    set_role(roles[0]);
   } else {
     set_role(CURRENT_ROLE);
   }
@@ -240,9 +256,31 @@ function dropdown_role_handler(event){
   set_role(role);
 }
 
+function get_path(){
+  var path = window.location.href.toString().split(window.location.host)[1];
+  if (path.slice(-1) == '/'){
+    path = path.slice(0, -1);
+  }
+  return path;
+}
+
 function set_role(role){
+  if (!is_valid_role(role)){
+    console.log('ERROR: unknown role', role);
+    set_role('none');
+    return;
+  }
   CURRENT_ROLE = role;
   Cookies.set(CURRENT_ROLE_COOKIE, role);
+  var account = ROLES[role];
+  var target = account.href;
+  if (target.slice(-1) == '/'){
+    target = target.slice(0, -1);
+  }
+  if (target != get_path()){
+    window.location.href = account.href;
+    return;
+  }
   $('#dropdownRoles li.role').removeClass('active');
   $('#dropdownRoles li.role[value=' + role + ']').addClass('active');
   assume_role(role);
