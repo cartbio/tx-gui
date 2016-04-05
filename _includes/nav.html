@@ -2,6 +2,8 @@
   <div class="container-fluid">
     <div class="navbar-header"><a class="navbar-brand"href="/">Cartesian Bio</a></div>
     <ul class="nav navbar-nav">
+        <li class="role-none {% if page.navtab == 'home' %}active{% endif %}">
+           <a href="/">Unknown user<span class="sr-only">(current)</span></a></li>
         <li class="role-lab {% if page.navtab == 'upload' %}active{% endif %}">
            <a href="/lab">Upload files<span class="sr-only">(current)</span></a></li>
         <li class="role-lab {% if page.navtab == 'log' %}active{% endif %}">
@@ -26,7 +28,18 @@
     <div class="navbar-right">
          <div class="session">
             <div class="mugshot"></div>
-            <div class="user_email">nobody</div>
+
+	    <div class="dropdown">
+              <button class="dropdown-toggle" type="button"
+		      id="roleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		<span class="caret"></span>
+		<div class="user_email"></div>
+	      </button>
+	      <ul id="dropdownRoles" class="dropdown-menu" aria-labelledby="roleDropdown">
+                <li class="header"><a href="#">View as&hellip;</a></li>
+                <li role="separator" class="divider"></li>
+	      </ul>
+	    </div>
             <div id="login_button" class="login btn btn-default">Login</div>
             <a class="logout_button">Log out</a>
          </div>

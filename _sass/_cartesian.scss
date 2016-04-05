@@ -1,11 +1,11 @@
 nav {
   li.role-physician, li.role-patient, li.role-lab, 
-  li.role-expert, li.role-admin {
+  li.role-expert, li.role-admin, li.role-none {
      display: none;
   }
 
   .role-physician.enabled, .role-patient.enabled, .role-lab.enabled,
-  .role-expert.enabled, .role-admin.enabled {
+  .role-expert.enabled, .role-admin.enabled, .role-none.enabled {
      display: inline;
   }
 
@@ -33,6 +33,24 @@ nav {
     }
 
     div.login { display: inline; }
+
+    div.dropdown {
+      display: inline;
+      .caret { display: none; }
+      li.header :hover { background-color: transparent; }
+
+      .active a {
+         color: #333;
+ 	 background-color: #DDD;
+      }
+    }
+
+    button.dropdown-toggle {
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: transparent;
+      border: none;
+    }
 
     div.user_email {
       margin-right: 1em;

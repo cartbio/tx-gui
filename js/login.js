@@ -26,13 +26,36 @@
  *   jQuery
  */
 
+var CURRENT_ROLE_COOKIE = 'current_role';
+var CURRENT_ROLE = 'none';
+var CURRENT_ROLE_DEFAULT = true;
+
 // On page load, see if we have a login session persisted in a cookie
-$(document).ready(check_login);
+$(document).ready(function(){
+		    var cookie = Cookies.get(CURRENT_ROLE_COOKIE);
+		    if (typeof cookie != 'undefined'){
+		      CURRENT_ROLE = cookie;
+		      CURRENT_ROLE_DEFAULT = false;
+		    }
+		    console.log('cookie role', CURRENT_ROLE);
+		    check_login();
+		    $(document).on('user_login', update_navbar);
+	            $(document).on('user_logout', update_navbar);
+		  });
+
 
 var APP_ID = "{{ site.google_api_key }}";
 var ACCESS_TOKEN_COOKIE = 'g_access_token';
 var ID_TOKEN_COOKIE = 'g_id_token';
 var TOKEN_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=';
+var ROLES = {
+	 'physician' : {name: 'Physician', href: '/physician/signup'},
+	 'patient' :  {name: 'Patient', href: '/patient/signup'},
+	 'lab' :  {name: 'Lab', href: '/lab'},
+	 'expert' :  {name: 'Expert', href:'/expert/queue'},
+	 'admin' :  {name: 'Admin', href: '/admin/accounts'},
+  	 'none' :  {name: 'Unauthorized', href: '/'}
+        };
 
 function on_google_load() {
   gapi.load('auth2', function () {
@@ -42,8 +65,6 @@ function on_google_load() {
 		         scope: 'email',
 		         fetch_basic_profile: true
 		       });
-		       $(document).on('user_login', update_navbar);
-	               $(document).on('user_logout', update_navbar);
 		       enable_google_button(auth2);
 		     });
 };
@@ -60,6 +81,7 @@ function on_click_logout(auth2){
   $(document).removeData('ID_TOKEN_INFO');
   Cookies.remove(ACCESS_TOKEN_COOKIE);
   Cookies.remove(ID_TOKEN_COOKIE);
+  Cookies.remove(CURRENT_ROLE_COOKIE);
   auth2.signOut().then(function(){ $(document).trigger('user_logout');});
 }
 
@@ -68,8 +90,9 @@ function on_login_success(auth2, user) {
   $(document).data('AUTH2', auth2);
   var id_token = user.getAuthResponse().id_token;
   var access_token = user.getAuthResponse().access_token;
+  var user_email = user.getBasicProfile().getEmail();
   remember_tokens(access_token, id_token);  // persist tokens in session cookies
-  $(document).trigger('user_login', auth2);
+  check_role(user_email, auth2);
 }
 
 // after user clicks login button and fails to log in
@@ -91,17 +114,21 @@ function update_navbar(event, auth2){
 
 function navbar_display_user(){
   var info = get_user_info();
+  $('nav .dropdown').show();
   $('nav .user_email').text(info.email).css('display', 'inline');
   $('nav .login').hide();
   $('nav .logout_button').css('display', 'inline');
   display_user_picture(info.image_url);
+  navbar_display_roles();
 }
 
 function navbar_display_nouser(){
+  $('nav .dropdown').hide();
   $('nav .user_email').text('').css('display', 'none');
   $('nav .login').css('display', 'inline');
   $('nav .logout_button').hide();
   $('nav .mugshot').hide();
+  navbar_hide_roles();
 }
 
 function display_user_picture(url){
@@ -110,6 +137,51 @@ function display_user_picture(url){
     .css('display', 'inline-block');
   }
 }
+
+function navbar_display_roles(){
+  var roles = $(document).data('roles');
+  if (typeof roles != 'undefined' && (roles.length > 1 || roles.indexOf('admin') != -1)){
+    $('nav .session .dropdown .caret').css('display', 'inline-block').show();
+    $('nav .session .dropdown button.dropdown-toggle').prop("disabled",false);
+    $('nav #dropdownRoles:contains(' + CURRENT_ROLE + ')');
+  } else {
+    navbar_hide_roles();
+  }
+}
+
+function navbar_hide_roles(){
+  $('nav .session .dropdown .caret').hide();
+  $('nav .session .dropdown button.dropdown-toggle').prop("disabled",true);
+}
+
+// -----
+// Roles
+
+
+// visible_roles is a list of keys, e.g. ['expert', 'patient']
+function init_roles_menu(current_role, visible_roles){
+  $('#dropdownRoles li.role').remove();
+  $.each(visible_roles, function(i, role){
+	   var attrs = ROLES[role];
+	   var anchor = $('<a/>').attr('href', attrs.href).text(attrs.name);
+	   var li = $('<li/>').attr('value', role).addClass('role').append(anchor);
+	   if (current_role == role){
+	     li.addClass('active');
+	   }
+	   $('#dropdownRoles').append(li);
+	   });
+  $('#dropdownRoles li.role').click(dropdown_role_handler);
+}
+
+// Enables visibility of nav bar items which have the current role
+function assume_role(role){
+  $('nav ul.navbar-nav li').removeClass('enabled');
+  var info = get_user_info();
+  if (info != null){
+    $('.role-'+role).addClass('enabled');
+  }
+}
+
 
 // -------------------------------------------------------
 // Persist Google id_token as a cookie. Update navbar if token is valid.
@@ -125,8 +197,64 @@ function check_login(){
       if (info != null){
 	navbar_display_user();
       }
-      $(document).trigger('user_login');
+      check_role(info.email);
     });
+}
+
+// Given a user, initialize the roles menu.
+// Called asynchronously, refreshes the GUI when done (by triggering the user_login event)
+// optional auth2
+//  auth2 provided when logging into Google
+//  auth2 undefined when loading id_token from cookie
+function check_role(user_email, auth2){
+  $.get('/mock-api/accounts.json', function(data){handle_check_role(user_email, auth2, data);});
+}
+
+function handle_check_role(user_email, auth2, data){
+  var account = lookup_user(user_email, data);
+  var roles = ['none'];
+  if (typeof account == 'undefined' || typeof CURRENT_ROLE == 'undefined'){
+    CURRENT_ROLE = 'none';
+  } else {
+    roles = account.roles;
+  }
+  $(document).data('roles', roles);
+  if (CURRENT_ROLE == 'none' && CURRENT_ROLE_DEFAULT){
+    set_role(roles[0]);
+  } else if (roles.indexOf(CURRENT_ROLE) == -1 && roles.indexOf('admin') == -1) {
+    // User not authorized for CURRENT_ROLE. Downgrade to 'none'
+    set_role('none');
+  } else {
+    set_role(CURRENT_ROLE);
+  }
+  if (roles.indexOf('admin') != -1){
+    // expand menu to include all possible roles
+    roles = Object.keys(ROLES);
+  }
+  init_roles_menu(CURRENT_ROLE, roles);
+  $(document).trigger('user_login', auth2);
+}
+
+function dropdown_role_handler(event){
+  var role = $(this).attr('value');
+  set_role(role);
+}
+
+function set_role(role){
+  CURRENT_ROLE = role;
+  Cookies.set(CURRENT_ROLE_COOKIE, role);
+  $('#dropdownRoles li.role').removeClass('active');
+  $('#dropdownRoles li.role[value=' + role + ']').addClass('active');
+  assume_role(role);
+}
+
+function lookup_user(user_email, accounts){
+  for (var i in accounts){
+    var account = accounts[i];
+    if (account.email == user_email){
+      return account;
+    }
+  }
 }
 
 // onSuccess(id_token, data) is a callback fcn to call when token is validated successfully

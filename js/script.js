@@ -9,11 +9,7 @@
 
 $(document).ready(init_upload);
 
-var ROLE_COOKIE = 'role';
-
 function init_upload() {
-  init_navbar();
-
   // Event watchers
   $(document).ajaxError(on_ajax_fail);
   $(document).on('user_login', display_logged_in);
@@ -24,7 +20,6 @@ function init_upload() {
   $('input#lab_id').change(function() { $('#lab_id').removeClass('has-error');});
 
   // do when clicked
-  $('.assume-role').click(assume_role);
   $('#fileupload').submit(do_upload);
 }
 
@@ -32,26 +27,6 @@ function on_ajax_fail(event, request, settings){
   console.log('on_ajax_fail', "event=", event, "req=", request, "settings=", settings);
 }
 
-// Reads 'role' cookie to determine current role
-// Enables visibility of nav bar items which have the current role
-// Selects home-page button with current role
-function init_navbar(){
-  var role = Cookies.get(ROLE_COOKIE);
-  if (typeof role == 'undefined' || role == ''){
-    Cookies.set(ROLE_COOKIE, 'none');
-    $('.assume-role[role=none]').addClass('active');
-    return;
-  }
-  $('.assume-role'+'[role='+role+']').addClass('active');
-  $('.role-'+role).addClass('enabled');
-}
-
-function assume_role(event){
-  var role = $(this).attr('role');
-  Cookies.set(ROLE_COOKIE, role);
-  $('.role-patient, .role-lab').removeClass('enabled');
-  init_navbar();
-}
 
 // ----------- login/logout events -------------
 
