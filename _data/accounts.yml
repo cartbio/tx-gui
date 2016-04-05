@@ -1,9 +1,10 @@
-- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['expert']}
+- {fname: Zak, lname: Kohane, email: zak@cartesian.bio, roles: ['admin']}
 - {fname: Steve, lname: Strassmann, email: steve@cartesian.bio, roles: ['admin']}
 - {fname: Steve, lname: Strassmann, email: steve@strassmann.com, roles: ['admin']}
 - {fname: Nathan, lname: Palmer, email: nathan@cartesian.bio, roles: ['admin', 'expert']}
 - {fname: Andrew, lname: Beam, email: andrew@cartesian.bio, roles: ['admin', 'expert']}
-- {fname: Daria, lname: Prilutzky, email: daria@cartesian.bio, roles: ['admin', 'expert', 'lab']}
+- {fname: Daria, lname: Prilutzky, email: daria@cartesian.bio, roles: ['admin']}
+- {fname: Daria, lname: Prilutzky, email: daria.prilutsky@gmail.com, roles: ['admin']} 
 - {fname: Bob, lname: Hickory, email: bob@helomics.com, roles: ['lab']}
 - {fname: Sue, lname: Farzhal, email: sue@helomics.com, roles: ['lab']}
 - {fname: Leslie, lname: Simms, email: leslie@helomics.com, roles: ['lab']}
