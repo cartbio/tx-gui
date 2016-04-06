@@ -19,4 +19,9 @@
 - {fname: Benjamin, lname: Spock, email: bspock@gmail.com, roles: ['physician']}
 - {fname: Avros, lname: Stockdale, email: astockdale@gmail.com, roles: ['physician']}
 - {fname: John H., lname: Holliday, email: docholliday@gmail.com, roles: ['physician']}
+- {fname: Natsu, lname: Furuichi, email: natsu@wondros.com, roles: ['admin']}
+- {fname: Patrick, lname: McGovern, email: patrick@wondros.com, roles: ['admin']}
+- {fname: Kate, lname: Buss, email: kate@wondros.com, roles: ['admin']}
+- {fname: Jesse, lname: Dylan, email: harvey100@gmail.com, roles: ['patient, physician']}
+- {fname: Jesse, lname: Dylan, email: jesse@wondros.com, roles: ['admin']}
 
