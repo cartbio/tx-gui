@@ -6,7 +6,8 @@
 {% include nav.html %}
 
 <div class="container">
-{{ content }}
+   <div ok="{{page.visible_to | join:" "}}" class="not_logged_in"></div>
+   <div class="logged_in">{{ content }}</div>
 </div>
 
 

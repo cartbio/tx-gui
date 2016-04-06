@@ -277,13 +277,28 @@ function set_role(role){
   if (target.slice(-1) == '/'){
     target = target.slice(0, -1);
   }
-  if (target != get_path()){
-    //window.location.href = account.href;
-    return;
-  }
+  page_check(role);
   $('#dropdownRoles li.role').removeClass('active');
   $('#dropdownRoles li.role[value=' + role + ']').addClass('active');
   assume_role(role);
+}
+
+function page_check(role){
+  console.log('page check', role);
+  var roles = $('.not_logged_in').attr('ok').split(' ');
+  console.log(roles.indexOf(role) == -1,
+	      roles.indexOf('all') == -1,
+	      role != 'admin');
+
+  if (roles.indexOf(role) == -1 &&
+      roles.indexOf('all') == -1 &&
+      role != 'admin'){
+    window.location.href = ROLES[role].href;
+  } else {
+    console.log('show');
+    $('.not_logged_in').hide();
+    $('.logged_in').show();
+  }
 }
 
 function lookup_user(user_email, accounts){
