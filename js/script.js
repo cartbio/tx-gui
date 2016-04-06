@@ -23,6 +23,7 @@ function init_upload() {
   $('#fileupload').submit(do_upload);
   $('.patient .patient-status button').click(mock_status);
   set_mock_status(1);
+  inline_svg();
 }
 
 function on_ajax_fail(event, request, settings){
@@ -209,4 +210,47 @@ function set_mock_status(val){
     }
   }
   return false;
+}
+
+
+/* -------------------  */
+
+// This turns the href="file.svg" references into inline svg elements,
+// which allows jquery selectors to work on them.
+
+function inline_svg(){
+  var target = $('img.svg').length;
+  var i = 0;
+  var count = function () {
+    i += 1;
+    return i;
+  };
+  $('img.svg').each(function(){
+		      var $img = jQuery(this);
+		      var imgID = $img.attr('id');
+		      var imgClass = $img.attr('class');
+		      var imgURL = $img.attr('src');
+
+		      $.get(imgURL, function(data) {
+			      // Get the SVG tag, ignore the rest
+			      var $svg = jQuery(data).find('svg');
+			      // Add replaced image's ID to the new SVG
+			      if(typeof imgID !== 'undefined') {
+				$svg = $svg.attr('id', imgID);
+			      }
+			      // Add replaced image's classes to the new SVG
+			      if(typeof imgClass !== 'undefined') {
+				$svg = $svg.attr('class', imgClass+' replaced-svg');
+			      }
+			      // Remove any invalid XML tags as per http://validator.w3.org
+			      $svg = $svg.removeAttr('xmlns:a');
+			      // Replace image with new SVG
+			      $img.replaceWith($svg);
+			    }, 'xml').done(function () {svg_loaded(count(), target);});
+		    });
+}
+
+function svg_loaded(i, max){
+  console.log(i, max);
+  //$('svg').css('width', '20px').css('height', '20px');
 }

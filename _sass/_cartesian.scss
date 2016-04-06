@@ -23,12 +23,20 @@ nav {
      margin-right: 1.5em;
   }
 
-  .navbar-brand a {
-     color: #777;
-     &:hover { 
-        color: #333;
-        text-decoration: none;
-     }
+  a.navbar-brand {
+      color: #777;
+      &:hover { 
+         color: #333;
+         text-decoration: none;
+      }
+      svg.logo {
+         display: inline-block;
+         width: 2em;
+         height: 2em;
+         polygon {
+	     fill: #36bcab;
+         }         
+      }
   }
 
   .session {
