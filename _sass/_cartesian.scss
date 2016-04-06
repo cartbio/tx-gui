@@ -22,8 +22,12 @@ nav {
      padding-top: .8em;
      margin-right: 1.5em;
   }
-
+ vertical-align: middle;
   a.navbar-brand {
+      span {
+       position: relative;
+       top: -.8em;
+      }
       color: #777;
       &:hover { 
          color: #333;
