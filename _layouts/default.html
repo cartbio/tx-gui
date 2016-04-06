@@ -7,9 +7,8 @@
 
 <div class="container">
    <div ok="{{page.visible_to | join:" "}}" class="not_logged_in"></div>
-   <div class="logged_in">{{ content }}</div>
+   <div class="logged_in {% if page.visible_to contains 'all'%}public{% endif %}">{{ content }}</div>
 </div>
-
 
 </body>
 </html>

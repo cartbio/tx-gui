@@ -1,10 +1,10 @@
 div.not_logged_in {
 }
-div.unauthorized {
-   display: none;
-}
 div.logged_in {
    display: none;
+   &.public {
+   display: block;
+   }
 }
 
 nav {
@@ -156,6 +156,29 @@ table.history i.spinner {
          font-size: 130%;
          text-transform: none;
        }
+   }
+
+   .step-descriptions {
+       div { display: none;}
+       ul {
+         list-style: none;
+         margin-left: 0;
+         padding-left: 0;
+       }
+       li {
+         margin-top: 1.3em;
+         padding-left: 2em;
+         text-indent: -1.7em;
+       }
+       li:before {
+         content: "\f096";      /* font awesome square-o */
+	 padding-right: 1em;
+       }
+   }
+
+   footer {
+     position: absolute;
+     bottom: 3em;
    }
 }
 

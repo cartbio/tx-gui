@@ -9,22 +9,61 @@ title: Your status
   <h1>Your status</h1>
 
   <ul class="progress-indicator">
-     <li class="completed"> <span class="bubble"></span> Step 1 
-    <div class="description">Sign up</div></li>
-     <li class="completed"> <span class="bubble"></span> Step 2
-    <div class="description">Tissue sample shipped</div> </li>
-     <li> <span class="bubble"></span> Step 3 
-    <div class="description">Tissue sample analysis</div></li>
-     <li> <span class="bubble"></span> Step 4 
-    <div class="description">Data analysis</div></li>
-     <li> <span class="bubble"></span> Step 5 
-    <div class="description">Report complete</div></li>
+     <li class="step1 completed"> <span class="bubble"></span> Step 1 
+       <div class="description">Sign up</div></li>
+     <li class="step2 completed"> <span class="bubble"></span> Step 2
+       <div class="description">Tissue sample shipped</div> </li>
+     <li class="step3"> <span class="bubble"></span> Step 3 
+       <div class="description">Tissue sample analysis</div></li>
+     <li class="step4"> <span class="bubble"></span> Step 4 
+       <div class="description">Data analysis</div></li>
+     <li class="step5"> <span class="bubble"></span> Step 5 
+       <div class="description">Report complete</div></li>
   </ul>
 
-  <h2>Status</h2>
-  <p>The tissue sample has been shipped to our lab.</p>
-  <p>FedEx tracking: <b><a target="fedex" href="https://www.fedex.com/apps/fedextrack/?tracknumbers=654533972289">
-6545 3397 2289</a></b><p>
-  <p>Expected delivery: <b>June 12, 2016</b><p>
+<div class="step-descriptions">
+  <div class="step1">
+    <h2>Sign up</h2>
+    <p>Signup is incomplete</p>
+    <p>Please <a href="./signup">complete</a> the signup form<p>
+  </div>
+
+  <div class="step2">
+    <h2>Tissue sample shipped</h2>
+    <p>The tissue sample has been shipped to our lab.</p>
+    <p>FedEx tracking: <b><a target="fedex" href="https://www.fedex.com/apps/fedextrack/?tracknumbers=654533972289">
+	  6545 3397 2289</a></b><p>
+    <p>Expected delivery: <b>June 12, 2016</b><p>
+  </div>
+
+  <div class="step3">
+    <h2>Tissue sample analysis</h2>
+    <p>Our laboratory is analyzing the tissue sample to identify the genomic expression data.</p>
+  </div>
+
+  <div class="step4">
+    <h2>Data analysis</h2>
+    <p>The genomic expression data is being processed.</p>
+  </div>
+
+  <div class="step5">
+    <h2>Report complete</h2>
+    <p>A final report is available, please ask your doctor.</p>
+  </div>
+</div>
+
+
+<footer class="footer">
+<div class="container">
+<div class="patient-status btn-group" role="group">
+  <button disabled class="btn btn-default">demo-tron</button>
+  <button class="btn btn-default">1</button>
+  <button class="btn btn-default">2</button>
+  <button class="btn btn-default">3</button>
+  <button class="btn btn-default">4</button>
+  <button class="btn btn-default">5</button>
+</div>
+</div>
+</footer>
 
 </div>

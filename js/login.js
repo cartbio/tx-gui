@@ -96,7 +96,7 @@ function on_login_success(auth2, user) {
 
 // after user clicks login button and fails to log in
 function on_login_failure(error) {
-  console.log('login error=', error);
+  console.log('LOGIN on_login_failure:', error);
 }
 
 // ---------------------------------------------
@@ -284,18 +284,12 @@ function set_role(role){
 }
 
 function page_check(role){
-  console.log('page check', role);
   var roles = $('.not_logged_in').attr('ok').split(' ');
-  console.log(roles.indexOf(role) == -1,
-	      roles.indexOf('all') == -1,
-	      role != 'admin');
-
-  if (roles.indexOf(role) == -1 &&
-      roles.indexOf('all') == -1 &&
-      role != 'admin'){
+  if (roles.indexOf(role) == -1 &&   // user isn't whitelisted, and
+      roles.indexOf('all') == -1 &&  // page isn't public, and
+      role != 'admin'){              // user isn't an admin
     window.location.href = ROLES[role].href;
   } else {
-    console.log('show');
     $('.not_logged_in').hide();
     $('.logged_in').show();
   }
