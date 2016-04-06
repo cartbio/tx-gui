@@ -1,3 +1,5 @@
+$brand: #36bcab !default;
+
 div.not_logged_in {
 }
 div.logged_in {
@@ -33,14 +35,16 @@ nav {
          color: #333;
          text-decoration: none;
       }
+      img.logo {
+         display: none;
+      }
       svg.logo {
-         display: inline-block;
-         margin-top: -.35em;
-         margin-right: .3em;
          width: 2em;
          height: 2em;
+         margin-top: -.35em;
+         margin-right: .3em;
          polygon {
-	     fill: #36bcab;
+	     fill: $brand;
          }         
       }
   }

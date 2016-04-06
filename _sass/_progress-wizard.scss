@@ -2,8 +2,10 @@
 
 // colors
 
+$brand: #36bcab !default;
 $incomplete: #bbb !default;
-$complete: #65d074 !default;
+/* $complete: #65d074 !default; */
+$complete: $brand !default;
 $active: #337AB7 !default;
 $hover: #5671d0 !default;
 $step-danger: #d3140f !default;
