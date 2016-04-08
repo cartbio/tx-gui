@@ -256,6 +256,7 @@ function dropdown_role_handler(event){
   set_role(role);
 }
 
+// not used
 function get_path(){
   var path = window.location.href.toString().split(window.location.host)[1];
   if (path.slice(-1) == '/'){
@@ -309,6 +310,7 @@ function lookup_user(user_email, accounts){
 function check_id_token(onSuccess){
   var id_token = Cookies.get(ID_TOKEN_COOKIE);
   if (typeof id_token == 'undefined' || id_token == 'undefined'){
+    page_check('none');
     return false;
   }
   $.get(TOKEN_URL+id_token).done(function(data){onSuccess(id_token, data);});

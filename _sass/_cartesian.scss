@@ -149,12 +149,9 @@ table.history i.spinner {
 /* ---------- home page ----------- */
 
 .home-page {
-    .roles {
+    a.btn {
       margin-top: 3em;
-      a,b {
-        margin-right: 1em;
-        display: inline;
-      }
+      margin-right: 3em;
     }
 }
 
