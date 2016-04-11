@@ -34,6 +34,9 @@ nav {
       &:hover { 
          color: #333;
          text-decoration: none;
+         svg.logo polygon {
+	 fill: darken($brand, 9%);
+         }
       }
       img.logo {
          display: none;
@@ -45,7 +48,7 @@ nav {
          margin-right: .3em;
          polygon {
 	     fill: $brand;
-         }         
+         }
       }
   }
 
