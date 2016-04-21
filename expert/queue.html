@@ -26,7 +26,7 @@ queue: [[R3081, 3hr, Ready],
     <tr><th>Report ID</th><th>Created</th><th>Report</th><th>Status</th></tr>
     {% for item in page.queue %}
     {% assign state = item[2] %}
-    <tr><td><a target="r" href="http://cartdev.shinyapps.io/shinytest?report={{ item[0] }}">{{ item[0] }}<a></td>
+    <tr><td><a target="r" href="https://cartdev.shinyapps.io/ibd-explorer?report={{ item[0] }}">{{ item[0] }}<a></td>
         <td>{{ item[1] }}</td>
         <td>{% if item[2] == "Completed" %}<a href="dummy-report.pdf"><i class="fa fa-file-o"></i></a>{% endif %}</td>
         <td><div class="btn btn-xs {{ page.states[state] }}">{{ item[2] }}</div></td>
