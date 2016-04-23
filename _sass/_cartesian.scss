@@ -1,9 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Varela+Round);
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web);
 
 $brand: #36bcab !default;
 
-.container {
-  h1, h2, h3 { font-family: 'Varela Round', sans-serif; }
+body, nav,  .container {
+  font-family: 'Titillium Web', sans-serif;
 }
 
 div.not_logged_in {
