@@ -69,7 +69,10 @@ nav {
       font-size: 90%;
     }
 
-    div.login { display: inline; }
+    .login { 
+       display: inline; 
+       .spinner { margin-left: 1em;}
+    }
 
     div.dropdown {
       display: inline;
@@ -147,11 +150,11 @@ nav {
 }
 
 
-table.history, table.log {
+table.history, table.log, table.reports {
    margin-top: 2em;
 }
 
-table.history i.spinner {
+table i.spinner {
     margin-right: 1em;
 }
 
@@ -159,9 +162,50 @@ table.history i.spinner {
 /* ---------- home page ----------- */
 
 .home-page {
-    a.btn {
+    .btn {
       margin-top: 3em;
       margin-right: 3em;
+      &.login {
+        &:hover {
+          background-color: lighten($brand, 20%);
+        }
+       .spinner { margin-left: 1em;}
+       background-color: lighten($brand, 40%);
+       color: black;
+       border: none;
+      }
+    }
+    img.google-logo {
+      height: 18px;
+      width: 18px;
+      margin-right: .5em;
+      margin-bottom: .2em;
+    }
+}
+
+.new-user {
+    .roundrect { 
+      margin-top: 2em;
+      background-color: lighten($brand, 50%);
+      border-radius: 10px;
+      border: solid 1px #DDD;
+      padding-bottom: 2em;
+    }
+    img.google-logo {
+      height: 18px;
+      width: 18px;
+      margin-right: .5em;
+      margin-bottom: .2em;
+    }
+    .btn-group {
+      width: 600px;
+    }
+    .btn {
+      margin-top: 1em;
+      margin-right: 3em;
+    }
+    .fa-caret-left {
+      margin-right: 1em;
     }
 }
 
@@ -218,8 +262,64 @@ table.history i.spinner {
    }
 }
 
+/* ------------- careers ------------ */
+
+div.careers {
+   .positions a {
+     font-size: 150%;
+   }
+   .btn {
+    margin-top: 2em;
+    margin-right: 2em;
+   }
+   i.fa { 
+    margin-right: 1em;
+   }
+
+}
+
 /* ------------- accounts ------------ */
 
-div.search {
-   margin-top: 2em;
+div.user {
+   .deferred { display: none;}
+   .loading .spinner { margin-right: 1em;}
+   .row.checkboxes .checkbox {
+      margin-top: -5px;
+   }
+}
+
+div.accounts {
+  .loading .spinner { margin-right: 1em; }
+  .search { margin-top: 2em; }
+}
+
+div.account {
+   .deferred { display: none;}
+   .loading .spinner { margin-right: 1em;}
+}
+
+.profile {
+    #name[readonly], #email[readonly] {
+      background-color: white;
+    }
+    .action-buttons {
+      margin-top: 4em;
+      button {
+        margin-right: 2em;
+      }
+    }
+    .role-button {
+         &:not(.active) {
+          padding-left: 2.8em;
+         }
+         &.active {
+            background-color: lighten($brand, 50%);
+            &:before {
+               font-family: FontAwesome;
+	       color: #080;
+               content: "\f00c";      /* font awesome check */
+	       padding-right: 1em;
+            }
+         }
+     }
 }
