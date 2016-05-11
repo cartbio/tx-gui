@@ -3,12 +3,15 @@ layout: default
 navtab: home
 visible_to: ['all']
 title: Cartesian Bio
+has_login: true
 ---
 
 <div class="container home-page">
   <h1>Welcome</h1>
 
-  <p><a href="/physician/signup" class="btn btn-lg btn-primary">I am a physician</a>
-     <a href="/patient/signup" class="btn btn-lg btn-primary">I am a patient</a></p>
-
+  <div class="row">
+     <div id="login_with_google" class="login btn btn-lg btn-info">
+	  <img class="google-logo" src="/img/google-logo.png">Log in</div>
+     <a href="/signup/newuser" class="btn btn-lg btn-default">Sign up</a></p>
+  </div>
 </div>

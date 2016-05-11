@@ -1,0 +1,52 @@
+---
+layout: default
+navtab: accounts
+title: User
+visible_to: [admin]
+script: [/js/admin.js]
+---
+
+<div class="container user">
+  <p class="loading"><i class="fa fa-refresh fa-spin spinner"></i>Loading&hellip;</p>
+  <div class="deferred">
+    <form class="form" id="edit_user" role="form">
+      <div class="row">
+	<div class="form-group col-sm-6">
+	  <label for="first_name">First Name</label>
+	  <input type="text" class="form-control" id="first_name" placeholder="First name">
+	</div>
+	<div class="form-group col-sm-6">
+	  <label for="first_name">Last Name</label>
+	  <input type="text" class="form-control" id="last_name" placeholder="Last name">
+	</div>
+      </div>
+      <label>Roles</label>
+      <div class="row checkboxes">
+	<div class="checkbox col-sm-1"><label><input type="checkbox" value="physician"> Physician</label></div>
+	<div class="checkbox col-sm-1"><label><input type="checkbox" value="patient"> Patient</label> </div>
+	<div class="checkbox col-sm-1"><label><input type="checkbox" value="lab"> Lab</label></div>
+	<div class="checkbox col-sm-1"><label><input type="checkbox" value="expert"> Expert</label></div>
+	<div class="checkbox col-sm-1"><label><input type="checkbox" value="admin"> Admin</label></div>
+      </div>
+      <div class="form-group">
+	<label for="user_id">ID</label>
+	<input type="text" class="form-control" id="user_id" placeholder="user id" readonly>
+      </div>
+      <div class="row">
+	<div class="form-group col-sm-6">
+	  <label for="created">Joined on</label>
+	  <input type="text" class="form-control" id="created" placeholder="created" readonly>
+	</div>
+	<div class="form-group col-sm-6">
+	  <label for="last_seen">Last seen</label>
+	  <input type="text" class="form-control" id="last_seen" placeholder="last seen" readonly>
+	</div>
+      </div>
+      <div class="form-group">
+	<label for="last_seen">Lab group</label>
+	<input type="text" class="form-control" id="lab_group" placeholder="lab group" readonly>
+      </div>
+
+    </form>
+  </div>
+</div>

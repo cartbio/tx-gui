@@ -14,8 +14,9 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://cartesian.bio" # the base hostname & protocol for your site
 
-google_api_key: '772140540805-5iim4e7thijd0r8dl68omgq4gs93lckh.apps.googleusercontent.com'
+google_api_key: 772140540805-5iim4e7thijd0r8dl68omgq4gs93lckh.apps.googleusercontent.com
 upload_url: https://kou84anwu8.execute-api.us-east-1.amazonaws.com/prod/lab
+api_url: https://587q9rz262.execute-api.us-east-1.amazonaws.com/dev
 
 # https://cartesian-upload.s3.amazonaws.com
 # Build settings

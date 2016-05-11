@@ -1,18 +1,18 @@
 ---
 layout: default
-navtab: accounts
-title: Accounts
+navtab: reports
+title: Reports
 visible_to: [admin]
 script: [/js/admin.js]
 ---
 
-<div class="container accounts">
-  <h1>Accounts</h1>
+<div class="container reports">
+  <h1>Reports</h1>
 
   {% include search.html %}
 
-   <table class="table table-striped log">
-    <tr><th>Name</th><th>Email</th><th>Roles</th></tr>
+   <table class="table table-striped reports">
+    <tr><th>Date</th><th>Report</th><th>Status</th></tr>
     <tr class="loading"><td><i class="fa fa-refresh fa-spin spinner"></i>Loading&hellip;</td></tr>
    </table>
 

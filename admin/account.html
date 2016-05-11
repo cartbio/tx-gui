@@ -1,24 +1,38 @@
 ---
 layout: default
 navtab: accounts
-title: Admin
-visible_to: ['admin']
+title: Account
+visible_to: [admin]
+script: [/js/admin.js]
 ---
 
-<div class="container accounts">
-  <h1>Fredi Washington</h1>
+<div class="container account">
+  <p class="loading"><i class="fa fa-refresh fa-spin spinner"></i>Loading&hellip;</p>
+  <div class="deferred">
+    <form id="edit_user" action="{{ site.upload_url }}" method="POST" enctype="multipart/form-data">
+      <div class="form-group" id="user">
+	<label for="user">Technician</label>
+	<input type="text" class="form-control" id="user" placeholder="not logged in" readonly>
+      </div>
+      <input type="hidden" id="access_token">
+      <input type="hidden" id="id_token">
 
-  <p><b>Email:</b> fwashington@gmail.com</p>
+      <div class="form-group" id="lab_id">
+
+  <h1></h1>
+
+  <p><b>Email:</b> <span class="email"></span></p>
   <p><div class="form-group">
     <label for="roles">Roles</label>
-    <div class="checkbox"><label><input type="checkbox"> Physician</label></div>
-    <div class="checkbox"><label><input type="checkbox" checked> Patient</label> </div>
-    <div class="checkbox"><label><input type="checkbox"> Lab</label></div>
-    <div class="checkbox"><label><input type="checkbox"> Expert</label></div>
-    <div class="checkbox"><label><input type="checkbox"> Admin</label></div>
+    <div class="checkbox"><label><input type="checkbox" value="physician"> Physician</label></div>
+    <div class="checkbox"><label><input type="checkbox" value="patient"> Patient</label> </div>
+    <div class="checkbox"><label><input type="checkbox" value="lab"> Lab</label></div>
+    <div class="checkbox"><label><input type="checkbox" value="expert"> Expert</label></div>
+    <div class="checkbox"><label><input type="checkbox" value="admin"> Admin</label></div>
   </div></p>
   <p><a class="btn btn-s btn-default" href="/patient">Check status</a> 
      <a class="btn btn-s btn-info" href="./accounts">Save changes</a> 
      <a class="btn btn-s btn-danger" href="./accounts">Cancel</a> </p>
 
+  </div>
 </div>

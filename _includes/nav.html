@@ -21,6 +21,8 @@
            <a href="/expert/queue">Analysis queue</a></li> 
         <li class="role-admin {% if page.navtab == 'accounts' %}active{% endif %}">
            <a href="/admin/accounts">Accounts</a></li> 
+        <li class="role-admin {% if page.navtab == 'reports' %}active{% endif %}">
+           <a href="/admin/reports">Reports</a></li> 
         <li class="role-admin {% if page.navtab == 'workflow' %}active{% endif %}">
            <a href="/admin/workflow">Workflow</a></li> 
         <li class="role-admin {% if page.navtab == 'finance' %}active{% endif %}">
@@ -41,7 +43,9 @@
                 <li role="separator" class="divider"></li>
 	      </ul>
 	    </div>
-            <div id="login_button" class="login btn btn-default">Login</div>
+            {% if page.has_login %}{% else %}
+            <div id="login_button" class="login btn btn-default"><span>Login</span></div>
+            {% endif %}
             <a class="logout_button">Log out</a>
          </div>
     </div>

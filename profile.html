@@ -1,0 +1,40 @@
+---
+layout: default
+navtab: home
+visible_to: [new_user, admin, patient, physician, lab, expert]
+title: Profile
+script: [/js/profile.js]
+---
+<div class="container profile">
+  <h1>Profile</h1>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="name" class="col-sm-1 control-label">name</label>
+      <div class="col-sm-6">
+	<input type="text" class="form-control" id="name" placeholder="name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="col-sm-1 control-label">email</label>
+      <div class="col-sm-6">
+	<input type="email" class="form-control" id="email" placeholder="email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="col-sm-1 control-label">I am a:</label>
+      <div class="col-sm-6 role-buttons">
+	<button class="btn btn-default role-button physician">Physician</button>
+	<button class="btn btn-default role-button patient">Patient</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1"></label>
+      <div class="col-sm-6 action-buttons">
+	<button class="btn btn-primary">Submit request</button>
+	<button class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </form>
+
+</div>

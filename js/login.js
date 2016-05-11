@@ -2,7 +2,7 @@
 ---
 /* Google login library
  *
- *  * (c) Cartesian Bio
+ * (c) Cartesian Bio
  * steve@cartesian.bio
  *
  * Manages login tokens and the CSS in the login/logout buttons in the navbar.
@@ -26,15 +26,19 @@
  *   jQuery
  */
 
+var API_URL = '{{ site.api_url }}';
 var CURRENT_ROLE_COOKIE = 'current_role';
 var CURRENT_ROLE = 'none';
 var CURRENT_ROLE_DEFAULT = true;
 
+var LOGIN_PROMISE = $.Deferred();
+$(document).on('user_login', function(){LOGIN_PROMISE.resolve();});
+
 // On page load, see if we have a login session persisted in a cookie
 $(document).ready(function(){
-		    var cookie = Cookies.get(CURRENT_ROLE_COOKIE);
-		    if (typeof cookie != 'undefined'){
-		      CURRENT_ROLE = cookie;
+		    var cookie_role = Cookies.get(CURRENT_ROLE_COOKIE);
+		    if (typeof cookie_role != 'undefined'){
+		      CURRENT_ROLE = cookie_role;
 		      CURRENT_ROLE_DEFAULT = false;
 		    }
 		    check_login();
@@ -53,7 +57,8 @@ var ROLES = {
 	 'lab' :  {name: 'Lab', href: '/lab'},
 	 'expert' :  {name: 'Expert', href:'/expert/queue'},
 	 'admin' :  {name: 'Admin', href: '/admin/accounts'},
-  	 'none' :  {name: 'Unauthorized', href: '/'}
+	 'new_user' :  {name: 'New user', href: '/profile'},
+  	 'none' :  {name: 'None', href: '/'}
         };
 
 function on_google_load() {
@@ -69,19 +74,26 @@ function on_google_load() {
 };
 
 function enable_google_button (auth2){
-  auth2.attachClickHandler('login_button', {}, function(user) {on_login_success(auth2, user);}, on_login_failure);
+  $('.login').each(function(i, elt){
+		     var button_id = $(elt).attr('id');
+		     auth2.attachClickHandler(button_id, {}, function(user) {on_login_success(auth2, user);}, on_login_failure);
+		   });
   $('nav .logout_button').click(function(e){
 			   on_click_logout(auth2);
 			   return false;});
 }
 
 function on_click_logout(auth2){
+  LOGIN_PROMISE = $.Deferred();
   $(document).removeData('AUTH2');
   $(document).removeData('ID_TOKEN_INFO');
   Cookies.remove(ACCESS_TOKEN_COOKIE);
   Cookies.remove(ID_TOKEN_COOKIE);
   Cookies.remove(CURRENT_ROLE_COOKIE);
-  auth2.signOut().then(function(){ $(document).trigger('user_logout');});
+  auth2.signOut().then(function(){
+			 $(document).trigger('user_logout');
+			 window.location.href = '/';
+		       });
 }
 
 // after user clicks login button and logs in
@@ -91,7 +103,7 @@ function on_login_success(auth2, user) {
   var access_token = user.getAuthResponse().access_token;
   var user_email = user.getBasicProfile().getEmail();
   remember_tokens(access_token, id_token);  // persist tokens in session cookies
-  check_role(user_email, auth2);
+  get_hello(user_email, auth2);
 }
 
 // after user clicks login button and fails to log in
@@ -158,6 +170,9 @@ function navbar_hide_roles(){
 
 function is_valid_role(role){
   var roles = Object.keys(ROLES);
+  if (typeof role == 'undefined'){
+    return false;
+  }
   return roles.indexOf(role) != -1;
 }
 
@@ -166,16 +181,19 @@ function init_roles_menu(current_role, visible_roles){
   $('#dropdownRoles li.role').remove();
   if (!is_valid_role(current_role)){
     console.log('ERROR: unknown role', role);
-    set_role('none');
+    set_role('none', true);
     return;
   }
   $.each(visible_roles, function(i, role){
+	   if (role == 'none'){
+	     return;
+	   }
 	   if (!is_valid_role(role)){
 	     console.log('ERROR: unknown role', role);
 	     return;
 	   }
-	   var attrs = ROLES[role];
-	   var anchor = $('<a/>').attr('href', attrs.href).text(attrs.name);
+	   var role_spec = ROLES[role];
+	   var anchor = $('<a/>').attr('href', role_spec.href).text(role_spec.name);
 	   var li = $('<li/>').attr('value', role).addClass('role').append(anchor);
 	   if (current_role == role){
 	     li.addClass('active');
@@ -209,7 +227,7 @@ function check_login(){
       if (info != null){
 	navbar_display_user();
       }
-      check_role(info.email);
+      get_hello(info.email);
     });
 }
 
@@ -218,30 +236,37 @@ function check_login(){
 // optional auth2
 //  auth2 provided when logging into Google
 //  auth2 undefined when loading id_token from cookie
-function check_role(user_email, auth2){
-  $.get('/mock-api/accounts.json', function(data){handle_check_role(user_email, auth2, data);});
+function get_hello(user_email, auth2){
+  $('.login').append($('<i/>').addClass('fa fa-refresh fa-spin spinner'));
+  $.ajax({method: 'GET',
+	  url: API_URL + '/user/hello',
+	  statusCode: { 403: fail_ajax },
+	  headers: { 'Authorization': 'none:' + get_id_token() }
+	 }).done(function(data){
+		   handle_hello(data, auth2);});
 }
 
-function handle_check_role(user_email, auth2, data){
-  var account = lookup_user(user_email, data);
-  var roles = ['none'];
-  if (typeof account == 'undefined' || typeof CURRENT_ROLE == 'undefined'){
-    CURRENT_ROLE = 'none';
-  } else {
-    roles = account.roles;
-  }
+// User has logged in successfully with a Google identity,
+// either by page reload (using a token stored in a cookie)
+// or by freshly logging in (using the Google login button)
+function handle_hello(data, auth2){
+  $('.login .spinner').remove();
+  var user_id = data.user_id;
+  var roles = data.roles;
   $(document).data('roles', roles);
-  if (roles.length == 0){
+  if (typeof roles == 'undefined' || roles.length == 0){
     // Not enabled for any roles
-    set_role('none');
+    set_role('new_user', true);
+    roles = ['new_user'];
   } else if (CURRENT_ROLE == 'none' && CURRENT_ROLE_DEFAULT){
     // Login with new role
-    set_role(roles[0]);
+    set_role(roles[0], true);
   } else if (roles.indexOf(CURRENT_ROLE) == -1 && roles.indexOf('admin') == -1) {
     // No longer eligible for saved role
-    set_role(roles[0]);
+    set_role(roles[0], true);
   } else {
-    set_role(CURRENT_ROLE);
+    var same_session = (typeof auth2 == 'undefined');
+    set_role(CURRENT_ROLE, !same_session);
   }
   if (roles.indexOf('admin') != -1){
     // expand menu to include all possible roles
@@ -253,7 +278,7 @@ function handle_check_role(user_email, auth2, data){
 
 function dropdown_role_handler(event){
   var role = $(this).attr('value');
-  set_role(role);
+  set_role(role, true);
 }
 
 // not used
@@ -265,42 +290,42 @@ function get_path(){
   return path;
 }
 
-function set_role(role){
+function set_role(role, is_new_role){
   if (!is_valid_role(role)){
     console.log('ERROR: unknown role', role);
-    set_role('none');
+    set_role('none', true);
     return;
   }
   CURRENT_ROLE = role;
   Cookies.set(CURRENT_ROLE_COOKIE, role);
-  var account = ROLES[role];
-  var target = account.href;
+  var role_spec = ROLES[role];
+  var target = role_spec.href;
   if (target.slice(-1) == '/'){
     target = target.slice(0, -1);
   }
-  page_check(role);
+  page_check(role, is_new_role);
   $('#dropdownRoles li.role').removeClass('active');
   $('#dropdownRoles li.role[value=' + role + ']').addClass('active');
   assume_role(role);
 }
 
-function page_check(role){
+// check if page is allowed for role
+// if not, redirect to home page for role
+// if permitted, show .logged_in container (see _layouts/default.html)
+function page_check(role, is_new_role){
   var roles = $('.not_logged_in').attr('ok').split(' ');
   if (roles.indexOf(role) == -1 &&   // user isn't whitelisted, and
       roles.indexOf('all') == -1 &&  // page isn't public, and
       role != 'admin'){              // user isn't an admin
-    window.location.href = ROLES[role].href;
+    is_new_role = true;
   } else {
     $('.not_logged_in').hide();
     $('.logged_in').show();
   }
-}
-
-function lookup_user(user_email, accounts){
-  for (var i in accounts){
-    var account = accounts[i];
-    if (account.email == user_email){
-      return account;
+  if (is_new_role){
+    var newpage = ROLES[role].href;
+    if (window.location.pathname != newpage){
+      window.location.href = newpage;
     }
   }
 }
@@ -328,12 +353,15 @@ function remember_tokens(access_token, id_token){
 
 // If user is logged in (either via auth2 or a token) return map
 // else return null
+// auth2 = user logged into google while viewing this page
+// token = session preserved in cookie
 function get_user_info(){
   var auth2 = $(document).data('AUTH2');
   var token_info = $(document).data('ID_TOKEN_INFO');
   if (typeof token_info != 'undefined'){
     return { name: token_info.name,
 	     email: token_info.email,
+	     user_id: token_info.sub,
 	     image_url: token_info.picture,
 	     id_token: Cookies.get(ID_TOKEN_COOKIE),
 	     access__token: Cookies.get(ACCESS_TOKEN_COOKIE)
@@ -344,6 +372,7 @@ function get_user_info(){
     var user = auth2.currentUser.get();
     return { name: user.getBasicProfile().getName(),
 	     email: user.getBasicProfile().getEmail(),
+	     user_id: user.getId(),
 	     image_url: user.getBasicProfile().getImageUrl(),
 	     id_token: user.getAuthResponse().id_token,
 	     access_token: user.getAuthResponse().access_token
@@ -351,4 +380,17 @@ function get_user_info(){
   } else {
     return null;
   }
+}
+
+// convenience function
+function get_id_token(){
+  var user_info = get_user_info();
+  if (user_info != null){
+    return user_info.id_token;
+  }
+  return 'none';
+}
+
+function fail_ajax (x, y, z){
+  console.log('fail_ajax', x, y, z);
 }
