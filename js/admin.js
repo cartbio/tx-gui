@@ -28,7 +28,7 @@ function on_load_accounts(data){
 	      return (a.last_name > b.last_name) ? 1 : ((b.last_name > a.last_name) ? -1 : 0);} );
   $('div.accounts table tr.loading').hide();
   $(data).each(function(i, elt){
-		var a = $('<a/>').attr('href', './user/'+elt.user_id).text(elt.first_name + ' ' + elt.last_name);
+		var a = $('<a/>').attr('href', './user?u='+elt.user_id).text(elt.first_name + ' ' + elt.last_name);
 		var c1 = $('<td/>').append(a);
 		var c2 = $('<td/>').text(elt.email);
 	        var c3 = $('<td/>').text(elt.roles);
@@ -41,8 +41,7 @@ function load_account(){
   if ($('.container.user').length == 0){
     return;
   }
-  var path = window.location.pathname.split( '/' );
-  var user_id = path[path.length - 1];
+  var user_id = getParameterByName('u');
   LOGIN_PROMISE.done(function(){
 		       $.ajax({method: 'GET',
 			       url: API_URL + '/user/' + user_id,
