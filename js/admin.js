@@ -52,9 +52,7 @@ function load_account(){
 }
 
 function on_load_account(data){
-  console.log(data);
-  var path = window.location.pathname.split( '/' );
-  var user_id = path[path.length - 1];
+  var user_id = getParameterByName('u');
   $('div.user .loading').hide();
   $('div.deferred').show();
   $('h1').text(data.first_name + ' ' + data.last_name);
