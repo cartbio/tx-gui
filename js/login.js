@@ -223,6 +223,7 @@ function check_login(){
     function (id_token, data){
       // Token (read from cookie) is valid. Save it in $(document).data()
       $(document).data('ID_TOKEN_INFO', data);
+      check_later(parseInt(data.exp));
       var info = get_user_info();
       if (info != null){
 	navbar_display_user();
@@ -230,6 +231,19 @@ function check_login(){
       get_hello(info.email);
     });
 }
+
+// Check again 2 seconds after Google login token is set to expire, by calling check_login then.
+// If login is expired, page will be refreshed in logged-out state.
+// expire_seconds is RFC 3339 timestamp (in seconds) when token will expire
+function check_later(expire_seconds){
+  var now = new Date().getTime(); // msec
+  var expires = expire_seconds * 1000;
+  var delay = 2000; // 2 seconds
+  setTimeout(check_login, (expires - now) + delay); // sleep, then run check_login
+}
+
+// login expires at data.exp
+//
 
 // Given a user, initialize the roles menu.
 // Called asynchronously, refreshes the GUI when done (by triggering the user_login event)
