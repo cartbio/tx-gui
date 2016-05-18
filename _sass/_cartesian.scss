@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Varela+Round);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web);
 
-$brand: #36bcab !default;
+$brand: #00aeef !default;
 
 body, nav,  .container {
   font-family: 'Titillium Web', sans-serif;
@@ -33,29 +33,11 @@ nav {
   }
  vertical-align: middle;
   a.navbar-brand {
-      span {
-       position: relative;
-       top: -.8em;
-      }
-      color: #777;
-      &:hover { 
-         color: #333;
-         text-decoration: none;
-         svg.logo polygon {
-	 fill: darken($brand, 9%);
-         }
-      }
+      position: relative;
+      padding: 0px;
       img.logo {
-         display: none;
-      }
-      svg.logo {
-         width: 2em;
-         height: 2em;
-         margin-top: -.35em;
-         margin-right: .3em;
-         polygon {
-	     fill: $brand;
-         }
+       transform: scale(.7);
+       margin-top: .5em;
       }
   }
 
